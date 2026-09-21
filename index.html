@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxe Grid — A Visual Journal</title>
+<link rel="icon" type="image/svg+xml" href="luxe-grid-logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="image_gallery.css">
+</head>
+<body>
+
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+  <div class="cursor-label" id="cursor-label" aria-hidden="true"></div>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <button class="favorites-toggle" id="favorites-toggle" aria-label="Open favorites">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20.5s-7.5-4.6-9.7-9C.7 8 2 4.5 5.4 3.7 7.7 3.2 9.9 4.3 12 6.7 14.1 4.3 16.3 3.2 18.6 3.7 22 4.5 23.3 8 21.7 11.5c-2.2 4.4-9.7 9-9.7 9z"/></svg>
+    <span class="favorites-count" id="favorites-count">0</span>
+  </button>
+
+  <div class="favorites-panel" id="favorites-panel" aria-hidden="true">
+    <div class="favorites-panel-header">
+      <h3>Your shortlist</h3>
+      <button id="favorites-close" aria-label="Close favorites">&times;</button>
+    </div>
+    <div class="favorites-empty" id="favorites-empty">Nothing saved yet — tap the heart on any frame to keep it here.</div>
+    <div class="favorites-list" id="favorites-list"></div>
+  </div>
+
+  <header class="navbar" id="navbar">
+    <a href="#" class="logo">Luxe Grid</a>
+
+    <nav class="nav-links" id="nav-links">
+      <a href="#categories">Categories</a>
+      <a href="#work">Gallery</a>
+      <a href="#about">Journal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-parallax" id="hero-parallax" aria-hidden="true">
+      <div class="hero-orb orb-a"></div>
+      <div class="hero-orb orb-b"></div>
+    </div>
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div class="hero-content" id="hero-content">
+      <p class="hero-kicker">Volume III — Field Notes</p>
+      <h1 class="reveal-word-wrap">
+        <span class="reveal-word">A slow look</span>
+        <span class="reveal-word gradient-text">at ordinary light.</span>
+      </h1>
+      <p class="hero-copy">Twenty-eight frames collected over a year of paying closer attention. No filters, no themes forced onto them afterward — just what caught the eye and held it.</p>
+
+      <div class="hero-actions">
+        <a href="#work" class="btn-gradient">See the collection</a>
+        <a href="#categories" class="btn-ghost">Browse by category</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-count="28">0</span>
+          <span class="stat-label">frames</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-count="5">0</span>
+          <span class="stat-label">categories</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-count="1">0</span>
+          <span class="stat-label">year in the making</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#categories" class="scroll-cue" aria-label="Scroll down">
+      <span></span>
+    </a>
+
+    <div class="hero-marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Landscape</span><span>·</span><span>Portrait</span><span>·</span>
+        <span>Abstract</span><span>·</span><span>Architecture</span><span>·</span>
+        <span>Street</span><span>·</span>
+        <span>Landscape</span><span>·</span><span>Portrait</span><span>·</span>
+        <span>Abstract</span><span>·</span><span>Architecture</span><span>·</span>
+        <span>Street</span><span>·</span>
+      </div>
+    </div>
+  </section>
+<!--Category-section -->
+  <section class="categories" id="categories">
+    <div class="section-heading">
+      <p class="section-kicker">Browse</p>
+      <h2>Five ways into the same year</h2>
+    </div>
+    <div class="category-grid" id="category-grid"></div>
+  </section>
+
+  <section class="reel-section" id="now-showing">
+    <div class="section-heading">
+      <p class="section-kicker">Now showing</p>
+      <h2>Fresh off the contact sheet</h2>
+    </div>
+    <div class="reel-wrap">
+      <button class="reel-arrow reel-prev" id="reel-prev" aria-label="Scroll reel left">&#8249;</button>
+      <div class="reel-track" id="reel-track"></div>
+      <button class="reel-arrow reel-next" id="reel-next" aria-label="Scroll reel right">&#8250;</button>
+    </div>
+  </section>
+
+  <section class="filter-section" id="work">
+    <div class="section-heading">
+      <p class="section-kicker">The collection</p>
+      <h2 id="gallery-heading">28 frames</h2>
+    </div>
+
+    <div class="filter-controls">
+      <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter by category">
+        <span class="filter-indicator" id="filter-indicator" aria-hidden="true"></span>
+      </div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="gallery-search" placeholder="Search by category or frame no.">
+      </div>
+    </div>
+
+    <main class="gallery" id="gallery" aria-label="Image gallery"></main>
+    <p class="gallery-empty" id="gallery-empty">No frames match that search.</p>
+  </section>
+
+  <section class="spotlight" id="spotlight">
+    <div class="spotlight-media">
+      <img id="spotlight-img" src="" alt="">
+    </div>
+    <div class="spotlight-copy">
+      <p class="section-kicker">Editor's pick</p>
+      <blockquote id="spotlight-quote">"The frames that make the cut aren't the sharpest — they're the ones you keep returning to without knowing why."</blockquote>
+      <span class="spotlight-cite">— from the curator's notes</span>
+      <button class="spotlight-shuffle" id="spotlight-shuffle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4l3 3M20 4h-4l-3 3M4 20h4l3-3M20 20h-4l-3-3"/><path d="M4 12h16"/></svg>
+        Shuffle the pick
+      </button>
+    </div>
+  </section>
+
+  <section class="behind" id="behind">
+    <div class="section-heading">
+      <p class="section-kicker">Process</p>
+      <h2>Behind the frame</h2>
+    </div>
+    <div class="behind-grid">
+      <div class="behind-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M8 7l1.5-3h5L16 7"/></svg>
+        <h3>The camera</h3>
+        <p>A single body, one prime lens. Fewer choices in the bag meant more attention on what was in front of it.</p>
+      </div>
+      <div class="behind-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16M16 4v16"/></svg>
+        <h3>Contact sheets</h3>
+        <p>Every roll got printed in full before anything was chosen — rejects included, to see the whole run honestly.</p>
+      </div>
+      <div class="behind-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18 4.5 4.5 0 0 1 0-9 4.5 4.5 0 0 0 0-9z"/></svg>
+        <h3>The edit</h3>
+        <p>Warm, understated grading — nothing pushed past what the light was already doing on the day.</p>
+      </div>
+      <div class="behind-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 3h16v13H4z"/><path d="M8 21h8M9 16v5M15 16v5"/></svg>
+        <h3>Prints</h3>
+        <p>A handful of frames are available as prints on request — reach out through the contact link below.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare" id="compare">
+    <div class="section-heading">
+      <p class="section-kicker">The edit</p>
+      <h2>Same frame, before the grade</h2>
+    </div>
+    <div class="compare-wrap" id="compare-wrap">
+      <div class="compare-media" id="compare-media">
+        <img class="compare-after" id="compare-after" src="" alt="Edited version">
+        <div class="compare-before-wrap" id="compare-before-wrap">
+          <img class="compare-before" id="compare-before" src="" alt="Unedited version">
+        </div>
+        <span class="compare-label compare-label-before">Before</span>
+        <span class="compare-label compare-label-after">After</span>
+        <div class="compare-handle" id="compare-handle">
+          <span class="compare-handle-grip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-heading">
+      <p class="section-kicker">Journal</p>
+      <h2>About the collection</h2>
+    </div>
+    <p class="about-lead">Every frame here was kept because it stopped a scroll or a walk for a second longer than expected. There's no single subject running through it — a doorway, a coastline, a stranger's hands — only the habit of looking twice.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="timeline-mark">Spring</span>
+        <p>Started the habit of carrying a camera on ordinary errands, not just planned outings.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-mark">Summer</span>
+        <p>Most of the street and portrait frames came from this stretch — longer days, more strangers.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-mark">Autumn</span>
+        <p>Slowed down. Fewer frames, but the architecture and abstract shots sharpened here.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-mark">Winter</span>
+        <p>Went back through everything and let the collection settle into what you see now.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" id="newsletter">
+    <div class="newsletter-inner">
+      <h2>Stay in the light</h2>
+      <p>A short note whenever a new volume drops. No noise in between.</p>
+      <form id="newsletter-form" class="newsletter-form">
+        <div class="input-wrap">
+          <input type="email" id="newsletter-email" placeholder="you@somewhere.com" required aria-label="Email address">
+        </div>
+        <button type="submit" class="btn-gradient">Subscribe</button>
+      </form>
+      <p class="newsletter-status" id="newsletter-status" role="status"></p>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">&#8249;</button>
+    <figure class="lightbox-frame">
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+      <div class="lightbox-actions">
+        <button id="lightbox-favorite" aria-label="Save to favorites">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20.5s-7.5-4.6-9.7-9C.7 8 2 4.5 5.4 3.7 7.7 3.2 9.9 4.3 12 6.7 14.1 4.3 16.3 3.2 18.6 3.7 22 4.5 23.3 8 21.7 11.5c-2.2 4.4-9.7 9-9.7 9z"/></svg>
+          Save
+        </button>
+        <button id="lightbox-share" aria-label="Copy link to this frame">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-3.2M8.6 13.4l6.8 3.2"/></svg>
+          Share
+        </button>
+        <a id="lightbox-download" download aria-label="Download this frame">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>
+          Download
+        </a>
+      </div>
+    </figure>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">&#8250;</button>
+    <p class="lightbox-hint">&#8592; &#8594; to browse &nbsp;·&nbsp; Esc to close</p>
+  </div>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <span class="footer-brand">Luxe Grid</span>
+      <p>&copy; 2026 Luxe Grid. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        </a>
+        <a href="https://twitter.com" aria-label="Twitter / X">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </a>
+        <a href="https://pinterest.com" aria-label="Pinterest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 20c1-3 1.5-5.5 2-8"/><path d="M8 14.5C6.5 12 7 6 12 6c4 0 5.5 3 5 6-.5 3-2.5 4.5-4.5 4-1.3-.3-2-1.2-2-2.3 0-1.5 1.2-3.2 1.2-4.7 0-1-.5-1.7-1.5-1.7-1.5 0-2.3 1.6-2.3 3.3 0 1 .3 1.7.3 1.7"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="image_gallery.js" defer></script>
+</body>
+</html>
